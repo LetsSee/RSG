@@ -1,0 +1,56 @@
+PODS:
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - DACircularProgress (2.3.1)
+  - MBProgressHUD (0.9.1)
+  - MWPhotoBrowser (2.1.1):
+    - DACircularProgress (~> 2.3)
+    - MBProgressHUD (~> 0.9)
+    - SDWebImage (!= 3.7.2, ~> 3.7)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
+  - TestFairy (1.5.7)
+
+DEPENDENCIES:
+  - AFNetworking
+  - MWPhotoBrowser (from `https://github.com/LetsSee/MWPhotoBrowser`)
+  - TestFairy
+
+EXTERNAL SOURCES:
+  MWPhotoBrowser:
+    :git: https://github.com/LetsSee/MWPhotoBrowser
+
+CHECKOUT OPTIONS:
+  MWPhotoBrowser:
+    :commit: a5b1ff09a6ce5f6de634c4c75773bd0b1bf9cb87
+    :git: https://github.com/LetsSee/MWPhotoBrowser
+
+SPEC CHECKSUMS:
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  MWPhotoBrowser: cebf3540db6b5116f1ad3e3e4c1b9aa11c0bf25f
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  TestFairy: 7ccc744bdd6536d914575ba34b56e81b94f78f4e
+
+COCOAPODS: 0.39.0

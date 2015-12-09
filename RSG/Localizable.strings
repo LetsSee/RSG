@@ -1,0 +1,31 @@
+/* 
+  Localizable.strings
+  RSG
+
+  Created by Rodion Bychkov on 12.09.15.
+  Copyright (c) 2015 LetsSee. All rights reserved.
+*/
+
+
+"RSG" = "Russian Survival Guide";
+"BookSegue" = "Book";
+"DestinationsSegue" = "Destinations";
+"ProsSegue" = "Tips for Pros";
+"TouristsSegue" = "Tips for Tourists";
+"FactsSegue" = "Interesting Facts";
+"AuthorsSegue" = "About Authors";
+"MattersSegue" = "Contents";
+
+
+"introduction" = "Introduction: Russian People and Its History";
+"ch1" = "Chapter 1: Planning Your Trip to Russia—Moscow vs. Saint Petersburg";
+"ch2" = "Chapter 2: Arriving to Russia—Your Visas and Passing Through Customs";
+"ch3" = "Chapter 3: Traffic and Transportation";
+"ch4" = "Chapter 4: Guides";
+"ch5" = "Chapter 5: Art";
+"ch6" = "Chapter 6: Money and Shopping";
+"ch7" = "Chapter 7: Russian Men and Women";
+"ch8" = "Chapter 8: Living Situation and Hotels in Russia";
+"ch9" = "Chapter 9: Restaurants and Nightclubs";
+"ch10" = "Chapter 10: People";
+"ch11" = "Chapter 11: Holidays, Customs, and Traditions";
