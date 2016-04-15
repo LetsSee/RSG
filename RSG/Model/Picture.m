@@ -8,6 +8,7 @@
 
 #import "Picture.h"
 
+
 @implementation Picture
 
 - (instancetype)initWithObj: (id) obj
@@ -21,8 +22,35 @@
     return self;
 }
 
--(NSURL *) url {
-    return [NSString stringWithFormat: @"https://aglas.blob.core.windows.net/rsg-city-s/%@.jpg", self.pictureID];
+-(NSURL *) cityThumbUrl {
+    NSString *str = [NSString stringWithFormat: @"https://aglas.blob.core.windows.net/rsg-city-s/%@.jpg", self.pictureID];
+    return [NSURL URLWithString: str];
 }
+
+-(MWPhoto *) cityThumb  {
+    return [MWPhoto photoWithURL: [self cityThumbUrl]];
+}
+
+-(MWPhoto *) cityPhoto  {
+    NSString *str = [NSString stringWithFormat: @"https://aglas.blob.core.windows.net/rsg-city-l/%@.jpg", self.pictureID];
+    return [MWPhoto photoWithURL: [NSURL URLWithString: str]];
+}
+
+-(NSURL *) thumbURLOfType: (NSString *) type  {
+    NSString *str = [NSString stringWithFormat: @"https://aglas.blob.core.windows.net/rsg-item-%@-s/%@.jpg", type, self.pictureID];
+    return [NSURL URLWithString: str];
+}
+
+-(MWPhoto *) thumbOfType: (NSString *) type  {
+    NSString *str = [NSString stringWithFormat: @"https://aglas.blob.core.windows.net/rsg-item-%@-s/%@.jpg", type, self.pictureID];
+    return [MWPhoto photoWithURL: [NSURL URLWithString: str]];
+}
+
+-(MWPhoto *) photoOfType: (NSString *) type  {
+    NSString *str = [NSString stringWithFormat: @"https://aglas.blob.core.windows.net/rsg-item-%@-l/%@.jpg", type, self.pictureID];
+    return [MWPhoto photoWithURL: [NSURL URLWithString: str]];
+}
+
+
 
 @end

@@ -9,6 +9,9 @@
 #import "MatterController.h"
 #import "ChapterContainer.h"
 #import "Paragraph.h"
+#import "NSString+RomanNumerals.h"
+#import "NSString+Common.h"
+#import "HeaderView.h"
 
 @interface MatterController ()
 
@@ -18,19 +21,59 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tableView registerNib: [UINib nibWithNibName: @"HeaderView" bundle: nil]  forHeaderFooterViewReuseIdentifier: @"TableSectionHeader"];
     
     self.navigationItem.title = L(MattersSegueKey);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemDone target: self action: @selector(close:)];
     TICK;
-    for (ChapterContainer *container in self.chapterContainers) {
+    if (self.chapterContainers.count > 1) {
+        for (ChapterContainer *container in self.chapterContainers) {
+            container.paragraphs = [NSMutableArray array];
+            [container.textStorage enumerateAttribute: NSFontAttributeName inRange:NSMakeRange(0, container.textStorage.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
+                if (value) {
+                    UIFont *font = value;
+                    if ([font.fontName isEqualToString: @"IowanOldStyle-BoldItalic"]) {
+                        
+                        NSUInteger pageNumber = 0;
+                        
+                        for (NSTextContainer *tc in container.layoutManager.textContainers) {
+                            NSRange tcRange = [container.layoutManager glyphRangeForTextContainer: tc];
+                            if (NSIntersectionRange(tcRange, range).length) {
+                                pageNumber = [container.layoutManager.textContainers indexOfObject: tc];
+                                break;
+                            }
+                        }
+                        Paragraph *p = [[Paragraph alloc] initWithTitle: [[container.textStorage attributedSubstringFromRange: range] string] pageNumber: pageNumber];
+                        [container.paragraphs addObject: p];
+                    }
+                    else {
+                        if ([font.fontName isEqualToString: @"IowanOldStyle-Bold"]) {
+                            NSString *tmp = [[container.textStorage attributedSubstringFromRange: range] string];
+                            NSArray *comps = [tmp componentsSeparatedByString: @"\n"];
+                            if ([comps.firstObject hasPrefix: @"Chapter"]) {
+                                container.title = [comps objectAtIndex: 1];
+                            }
+                            else {
+                                container.title = [comps objectAtIndex: 0];
+                            }
+                            
+                        }
+                    }
+                }
+            }];
+            
+        }
+    }
+    else {
+        ChapterContainer *container = self.chapterContainers.lastObject;
         container.paragraphs = [NSMutableArray array];
         [container.textStorage enumerateAttribute: NSFontAttributeName inRange:NSMakeRange(0, container.textStorage.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
             if (value) {
                 UIFont *font = value;
-                if ([font.fontName isEqualToString: @"IowanOldStyle-BoldItalic"]) {
+                if ([font.fontName isEqualToString: @"IowanOldStyle-Bold"]) {
                     
                     NSUInteger pageNumber = 0;
-
+                    
                     for (NSTextContainer *tc in container.layoutManager.textContainers) {
                         NSRange tcRange = [container.layoutManager glyphRangeForTextContainer: tc];
                         if (NSIntersectionRange(tcRange, range).length) {
@@ -41,15 +84,10 @@
                     Paragraph *p = [[Paragraph alloc] initWithTitle: [[container.textStorage attributedSubstringFromRange: range] string] pageNumber: pageNumber];
                     [container.paragraphs addObject: p];
                 }
-                else {                    
-                    if ([font.fontName isEqualToString: @"IowanOldStyle-Bold"]) {
-                        container.title = [[container.textStorage attributedSubstringFromRange: range] string];
-                    }
-                }
             }
         }];
-        
     }
+
     TOCK;
     [self.tableView reloadData];
 }
@@ -77,36 +115,61 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 65.0f;
+    UIFont *f = [UIFont fontWithName: @"IowanOldStyle-Bold" size: 17.0f];
+    ChapterContainer *container = [self.chapterContainers objectAtIndex: section];
+    
+    NSString *sectionTitle = nil;
+    if (section) {
+        NSString *n = [NSString romanNumeral: section];
+        sectionTitle = [NSString stringWithFormat: @"%@. %@", n, container.title];
+    }
+    else {
+        sectionTitle = container.title;
+    }
+    
+    CGFloat textHeight = [sectionTitle textHeightForWidth: (self.view.bounds.size.width-30.0f) andFont: f];
+    return textHeight + 16.0f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView  =[[UIView alloc] initWithFrame: CGRectZero];
-    headerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    UIButton *button = [[UIButton alloc] initWithFrame: CGRectMake(10, 0, 300, 60)];
-    [button addTarget: self action: @selector(sectionButtonTapped:) forControlEvents: UIControlEventTouchUpInside];
-    [button setTitleColor: DarkGrayColor forState: UIControlStateNormal];
-    [button.titleLabel setFont: [UIFont fontWithName: @"IowanOldStyle-Bold" size: 15.0f]];
-    [button.titleLabel setNumberOfLines: 3];
-    [button.titleLabel setTextAlignment: NSTextAlignmentLeft];
-    [button setContentHorizontalAlignment: UIControlContentHorizontalAlignmentLeft];
-    [headerView addSubview: button];
-    
     ChapterContainer *container = [self.chapterContainers objectAtIndex: section];
-    [button setTag: section];
-    [button setTitle: container.title forState: UIControlStateNormal];
+    HeaderView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier: @"TableSectionHeader"];
+    [headerView.button addTarget: self action: @selector(sectionButtonTapped:) forControlEvents: UIControlEventTouchUpInside];
+    [headerView.button setTag: section];
     
+    NSString *sectionTitle = nil;
+    if (section) {
+        NSString *n = [NSString romanNumeral: section];
+        sectionTitle = [NSString stringWithFormat: @"%@. %@", n, container.title];
+    }
+    else {
+        sectionTitle = container.title;
+    }
+    
+    [headerView.button setTitle: sectionTitle forState: UIControlStateNormal];
     return headerView;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UIFont *f = [UIFont fontWithName: @"IowanOldStyle-Roman" size: 16.0f];
+    ChapterContainer *container = [self.chapterContainers objectAtIndex: indexPath.section];
+    Paragraph *p = [container.paragraphs objectAtIndex: indexPath.row];
+    return ([p.title textHeightForWidth: self.view.bounds.size.width - 44.0f andFont: f]);
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: MatterCell];
     ChapterContainer *container = [self.chapterContainers objectAtIndex: indexPath.section];
     Paragraph *p = [container.paragraphs objectAtIndex: indexPath.row];
-    cell.textLabel.font = [UIFont fontWithName: @"IowanOldStyle-BoldItalic" size: 14.0f];
-    cell.textLabel.numberOfLines = 3;
+    cell.textLabel.font = [UIFont fontWithName: @"IowanOldStyle-Roman" size: 16.0f];
+    cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    cell.textLabel.numberOfLines = 0;
     cell.textLabel.text = p.title;
+    cell.separatorInset = UIEdgeInsetsMake(0.0f, 30.0f, 0.0f, 0.0f);
     return cell;
 }
 

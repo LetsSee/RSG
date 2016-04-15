@@ -11,5 +11,7 @@
 @interface UIViewController (System)
 
 -(void) setupSlideOutButton;
+-(void) showAlertViewWithError: (NSError*) error;
+-(void) showAlertViewWithError: (NSError*) error customTitle: (NSString *) customTitle;
 
 @end

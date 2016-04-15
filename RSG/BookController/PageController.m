@@ -45,7 +45,7 @@
     [self.slider setMaximumValue: self.pagesTotal];
     [self.slider setValue: self.pageNumber+self.pagesBefore+1 animated: NO];
     
-    self.label.text = [NSString stringWithFormat: @"%ld of %ld", self.pageNumber+self.pagesBefore+1, self.pagesTotal];
+    self.label.text = [NSString stringWithFormat: @"%ld of %ld", (unsigned long)self.pageNumber+self.pagesBefore+1, (unsigned long)self.pagesTotal];
     if (self.textContainer) {
         UITextView *textView = [[UITextView alloc] initWithFrame: self.containerView.bounds textContainer: self.textContainer];
         textView.editable = NO;

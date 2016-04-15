@@ -12,6 +12,7 @@
 
 static NSString *const kServerUrlString                 = @"https://rsgdev.azurewebsites.net/";
 static NSString *const kCityList                        = @"lstCity.aspx";
-
+static NSString *const kItemList                        = @"lstItem.aspx?CityID=%@";
+static NSString *const kStatusPath                      = @"getStatus.aspx";
 
 #endif /* NetworkPaths_h */

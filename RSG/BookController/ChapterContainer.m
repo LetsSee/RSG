@@ -17,7 +17,38 @@
     self = [super init];
     if (self) {
         NSError *error = nil;
-        NSURL *htmlString = [[NSBundle mainBundle] URLForResource: [NSString stringWithFormat: @"ch%d", chapterNumber] withExtension:@"html"];
+        NSURL *htmlString = [[NSBundle mainBundle] URLForResource: [NSString stringWithFormat: @"ch%lu", (unsigned long)chapterNumber] withExtension:@"html"];
+        NSAttributedString *string = [[NSAttributedString alloc] initWithFileURL: htmlString
+                                                                         options: @{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
+                                                              documentAttributes: nil
+                                                                           error: &error];
+        if (error) {
+            UIAlertController *alertController = [UIAlertController
+                                                  alertControllerWithTitle: @"Error"
+                                                  message: @"Unable to parse chapter one"
+                                                  preferredStyle: UIAlertControllerStyleAlert];
+            [delegate presentViewController:alertController animated:YES completion: ^{
+                [self performSelector: @selector(dismissAlertController:) withObject: alertController afterDelay: 1.5];
+            }];
+        }
+        
+        self.textStorage = [[NSTextStorage alloc] initWithAttributedString: string];
+        self.layoutManager = [[NSLayoutManager alloc] init];
+        self.layoutManager.allowsNonContiguousLayout = YES;
+        self.layoutManager.delegate = self;
+        [self.layoutManager setTextStorage: self.textStorage];
+        
+        string = nil;
+    }
+    return self;
+}
+
+- (instancetype) initWithChapterName: (NSString *) name delegate: (id) delegate
+{
+    self = [super init];
+    if (self) {
+        NSError *error = nil;
+        NSURL *htmlString = [[NSBundle mainBundle] URLForResource: [NSString stringWithFormat: @"%@", name] withExtension:@"html"];
         NSAttributedString *string = [[NSAttributedString alloc] initWithFileURL: htmlString
                                                                          options: @{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
                                                               documentAttributes: nil

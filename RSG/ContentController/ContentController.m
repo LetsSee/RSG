@@ -7,6 +7,7 @@
 //
 
 #import "ContentController.h"
+#import "SectionController.h"
 
 @interface ContentController ()
 
@@ -44,9 +45,17 @@
 }
 
 -(void) initControllerForKey: (NSString *) key {
-    UIViewController *controller = [self->controllers objectForKey: key];    
+    UIViewController *controller = [self->controllers objectForKey: key];
     if (controller == nil) {
-        [self performSegueWithIdentifier: key sender: self];
+        if ([key isEqualToString: ProsSegueKey] || [key isEqualToString: TouristsSegueKey] || [key isEqualToString: FactsSegueKey]) {
+            self.currentKey = key;
+            [self performSegueWithIdentifier: SectionSegueKey sender: self];
+        }
+        else {
+            self.currentKey = nil;
+            [self performSegueWithIdentifier: key sender: self];
+        }
+
     }
     else {
         [self displayContentController: controller];
@@ -74,14 +83,37 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     UIViewController *dst = segue.destinationViewController;
-    [self->controllers setObject: dst forKey: segue.identifier];
+    
+    SWITCH(self.currentKey) {
+        UINavigationController *nc = segue.destinationViewController;
+        SectionController *sc = (SectionController*)nc.topViewController;
+        sc.title = L(self.currentKey);
+        CASE(ProsSegueKey) {
+            [self->controllers setObject: dst forKey: ProsSegueKey];
+            sc.chapterName = @"tips-pros";
+            break;
+        }
+        CASE(TouristsSegueKey) {
+            [self->controllers setObject: dst forKey: TouristsSegueKey];
+            sc.chapterName = @"tips-tourists";
+            break;
+        }
+        CASE(FactsSegueKey) {
+            [self->controllers setObject: dst forKey: FactsSegueKey];
+            sc.chapterName = @"facts";
+            break;
+        }
+        DEFAULT {
+            [self->controllers setObject: dst forKey: segue.identifier];
+            break;
+        }
+    }
     [self displayContentController: dst];
 }
 
 
 - (void) displayContentController: (UIViewController*) content;
 {
-    
     self.currentController = content;
     [self addChildViewController: content];
     [self.view addSubview: content.view];

@@ -1,5 +1,5 @@
 //
-//  BookController.h
+//  SectionController.h
 //  RSG
 //
 //  Created by Rodion Bychkov on 12.09.15.
@@ -9,16 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "MatterController.h"
 #import "PageController.h"
+#import "ChapterContainer.h"
 
-@interface BookController : UIViewController <MatterControllerDelegate, UIGestureRecognizerDelegate, NSLayoutManagerDelegate, UIPageViewControllerDataSource, UIPageViewControllerDelegate, PageControllerDelegate>
+@interface SectionController : UIViewController  <MatterControllerDelegate, UIGestureRecognizerDelegate, NSLayoutManagerDelegate, UIPageViewControllerDataSource, UIPageViewControllerDelegate, PageControllerDelegate>
 
-@property (nonatomic) NSUInteger chapterNumber;
+@property (nonatomic) NSString *chapterName;
 @property (nonatomic) NSUInteger currentPage;
-@property (nonatomic) NSUInteger totalPageCount;
 @property (nonatomic) BOOL isTransitioning;
 @property (nonatomic, retain) UIPageViewController *pageViewController;
 
-@property (nonatomic, retain) NSMutableArray *chapterContainers;
+@property (nonatomic, retain) ChapterContainer *chapterContainer;
 @property (nonatomic, retain) NSLayoutManager *layoutManager;
 @property (nonatomic, retain) NSTextStorage *textStorage;
 

@@ -13,6 +13,8 @@
 
 + (instancetype) sharedHTTPClient;
 
+-(void) getStatus: (void (^)(BOOL success, NSError *error))completion;
 -(void) getCityList: (void (^)(BOOL success, NSError *error, NSArray *cities))completion;
+-(void) getItemsListCityID: (NSString *) cityID completion: (void (^)(BOOL success, NSError *error, NSArray *items))completion;
 
 @end

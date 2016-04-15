@@ -7,7 +7,7 @@
 //
 
 #import "DestinationsController.h"
-#import "DestinationItemController.h"
+#import "CityController.h"
 #import "UIScrollView+CNPullToRefresh.h"
 #import "HTTPClient.h"
 #import "City.h"
@@ -62,11 +62,23 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString: DestinationItemSegueKey]) {
-        DestinationItemController *dst = (DestinationItemController*)segue.destinationViewController;
+        CityController *dst = (CityController*)segue.destinationViewController;
         NSIndexPath *ip = [self.tableView indexPathForCell: sender];
         dst.city = [self.citiesList objectAtIndex: ip.row];
     }
 }
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+    
+    if (self.tableView.pullToRefreshView) {
+        [self.tableView stopPullToRefresh];
+        [self.tableView stopPullToRefreshObserving];
+    }
+    
+#ifdef DEBUG
+    NSLog(@"%@ deallocated", NSStringFromClass([self class]));
+#endif
+}
 
 @end

@@ -12,5 +12,6 @@
     #define SlideOutOffset 215.0f
     #define StandartRowHeight 44.0f
     #define MediumRowHeight 50.0f
+    #define LargeRowHeight 55.0f
 
 #endif

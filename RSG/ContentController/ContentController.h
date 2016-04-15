@@ -17,6 +17,7 @@
 }
 
 @property (nonatomic) UIViewController *currentController;
+@property (nonatomic) NSString *currentKey;
 
 -(void) showControllerWithStoryboardId: (NSString *) stringId;
 

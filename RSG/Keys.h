@@ -18,6 +18,9 @@
 #define AuthorsSegueKey @"AuthorsSegue"
 #define MattersSegueKey @"MattersSegue"
 #define CityPicturesSegueKey @"CityPicturesSegue"
+#define CityItemsSegueKey @"ItemsSegue"
+#define SectionSegueKey @"SectionSegue"
+#define ItemSegueKey @"ItemSegue"
 
 #define SlideOutNotificationKey @"SlideOutNotification"
 

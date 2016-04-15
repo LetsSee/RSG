@@ -10,7 +10,7 @@
 
 @protocol PageControllerDelegate <NSObject>
 
--(void) didDiplayViewController: (NSUInteger) pageNumber;
+//-(void) didDiplayViewController: (NSUInteger) pageNumber;
 
 @end
 

@@ -1,25 +1,38 @@
 //
-//  CityPicturesController.m
+//  ItemController.m
 //  RSG
 //
-//  Created by Rodion Bychkov on 07.12.15.
-//  Copyright © 2015 LetsSee. All rights reserved.
+//  Created by Rodion Bychkov on 04.02.16.
+//  Copyright © 2016 LetsSee. All rights reserved.
 //
 
-#import "CityPicturesController.h"
+#import "ItemController.h"
 #import "ImageCell.h"
 #import "Picture.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 
-@interface CityPicturesController ()
+@interface ItemController ()
 
 @end
 
-@implementation CityPicturesController
+@implementation ItemController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (self.item) {
+        self.textView.text = self.item.descriptionText;
+    }
     // Do any additional setup after loading the view.
+}
+
+/*-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
+    [self.textView scrollRectToVisible: CGRectMake(0, 0, 1, 1) animated: NO];
+}*/
+
+-(void) viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    [self.textView scrollRangeToVisible:NSMakeRange(0, 0)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -27,22 +40,29 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void) setPictures:(NSArray *)pictures {
-    _pictures = pictures;
+-(void) setItem:(Item *)item {
+    _item = item;
+    if (item.name.length) {
+        self.navigationItem.title = item.name;
+    }
+    if (item.descriptionText.length) {
+        self.textView.text = item.descriptionText;
+    }
     [self.collectionView reloadData];
 }
+
 
 #pragma mark - UICollectionView Data Source
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.pictures count];
+    return [self.item.pictures count];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(120.0f, 110.0f);
-
+    return CGSizeMake(140.0f, 140.0f);
+    
 }
 
 
@@ -52,11 +72,11 @@
     static NSString *cellIdentifier = @"ImageCell";
     
     ImageCell *cell = (ImageCell *)[collectionView dequeueReusableCellWithReuseIdentifier: cellIdentifier forIndexPath: indexPath];
-    Picture *p = [self.pictures objectAtIndex:indexPath.row];
+    Picture *p = [self.item.pictures objectAtIndex:indexPath.row];
     //cell.imageView.layer.borderColor = LightGrayColor.CGColor;
     //cell.imageView.layer.borderWidth = 1.0;
 
-    [cell.imageView sd_setImageWithURL: [p cityThumbUrl] placeholderImage: [UIImage imageNamed: @"album_placeholder"]];
+    [cell.imageView sd_setImageWithURL: [p thumbURLOfType: self.type.stringValue] placeholderImage: [UIImage imageNamed: @"album_placeholder"]];
     return cell;
 }
 
@@ -80,23 +100,23 @@
     nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     //UIViewController *viewController = [self firstAvailableUIViewController];
     [self presentViewController:nc animated:YES completion:nil];
- }
+}
 
 
 #pragma mark - MWPhotoBrowser
 
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    return self.pictures.count;
+    return self.item.pictures.count;
 }
 
 - (MWPhoto*) photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    Picture *p = [self.pictures objectAtIndex: index];
-    return [p cityPhoto];
+    Picture *p = [self.item.pictures objectAtIndex: index];
+    return [p photoOfType: self.type.stringValue];
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
-    Picture *p = [self.pictures objectAtIndex: index];
-    return [p cityThumb];
+    Picture *p = [self.item.pictures objectAtIndex: index];
+    return [p thumbOfType: self.type.stringValue];
 }
 
 

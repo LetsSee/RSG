@@ -1,5 +1,5 @@
 //
-//  DestinationItemController.h
+//  CityController.h
 //  RSG
 //
 //  Created by Rodion Bychkov on 17.09.15.
@@ -7,13 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MWPhotoBrowser.h"
 #import "City.h"
 
-@interface DestinationItemController : UITableViewController <MWPhotoBrowserDelegate>
+@interface CityController : UITableViewController
 
 
 @property (nonatomic) City *city;
-@property (nonatomic) NSMutableArray *photos;
 
 @end

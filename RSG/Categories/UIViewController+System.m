@@ -7,6 +7,11 @@
 //
 
 #import "UIViewController+System.h"
+#import "MBProgressHUD.h"
+#import "MBProgressHUD+Helpers.h"
+
+#define NetworkErrorForbidden 401
+#define NetworkErrorOffline -1009
 
 @implementation UIViewController (System)
 
@@ -21,5 +26,34 @@
 -(void) onSlide {
     [[NSNotificationCenter defaultCenter] postNotificationName: SlideOutNotificationKey object: self];
 }
+
+-(void) showAlertViewWithError: (NSError*) error {
+    [self showAlertViewWithError: error customTitle: nil];
+}
+
+-(NSString *) errorText: (NSError *)error {
+    NSString *errorText = nil;
+    if (error.code == NetworkErrorOffline) {
+        errorText = L(@"The Internet connection appears to be offline");
+    }
+    else {
+        errorText = error.localizedDescription;
+    }
+    
+    return errorText;
+    
+}
+
+-(void) showAlertViewWithError: (NSError*) error customTitle: (NSString *) customTitle {
+    NSString *title = customTitle?customTitle:L(@"Error");
+    //logout on anauthorized
+    UIWindow *frontWindow = [[UIApplication sharedApplication] keyWindow];
+    [MBProgressHUD showFailHudAddedToWindowWithText: title detailsText: [self errorText: error] completion:^{
+        MBProgressHUD *hud = [MBProgressHUD HUDForView: frontWindow];
+        [hud hide: YES];
+    }];
+}
+
+
 
 @end

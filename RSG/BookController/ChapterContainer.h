@@ -21,6 +21,8 @@
 @property (nonatomic) NSMutableArray *paragraphs;
 
 - (instancetype) initWithChapter: (NSUInteger) chapterNumber delegate: (id) delegate;
+- (instancetype) initWithChapterName: (NSString *) name delegate: (id) delegate;
+
 - (void) fillTextContainers: (CGSize) size;
 
 @end

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HR2-KA-rEw">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="UTU-aa-RtH">
+                            <rect key="frame" x="15" y="0.0" width="305" height="100"/>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="UTU-aa-RtH" secondAttribute="trailing" id="AJI-Pn-fep"/>
+                        <constraint firstItem="UTU-aa-RtH" firstAttribute="leading" secondItem="HR2-KA-rEw" secondAttribute="leading" constant="15" id="GdJ-VN-cgE"/>
+                        <constraint firstItem="UTU-aa-RtH" firstAttribute="top" secondItem="HR2-KA-rEw" secondAttribute="top" id="cgE-Nc-7Ue"/>
+                        <constraint firstAttribute="bottom" secondItem="UTU-aa-RtH" secondAttribute="bottom" id="kC8-NM-sUY"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="HR2-KA-rEw" secondAttribute="trailing" id="7sE-J6-kb9"/>
+                <constraint firstAttribute="bottom" secondItem="HR2-KA-rEw" secondAttribute="bottom" id="DKc-58-mar"/>
+                <constraint firstItem="HR2-KA-rEw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fWN-jh-GZW"/>
+                <constraint firstItem="HR2-KA-rEw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="yV5-0F-Wa7"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="button" destination="UTU-aa-RtH" id="cB3-WP-gvP"/>
+            </connections>
+        </view>
+    </objects>
+</document>

@@ -7,12 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MWphoto.h"
 
 @interface Picture : NSObject
 
 @property (nonatomic) NSString *pictureID;
 
 - (instancetype)initWithObj: (id) obj;
--(NSURL *) url;
+-(NSURL *) cityThumbUrl;
+
+-(MWPhoto *) cityThumb;
+-(MWPhoto *) cityPhoto;
+
+-(NSURL *) thumbURLOfType: (NSString *) type;
+-(MWPhoto *) thumbOfType: (NSString *) type;
+-(MWPhoto *) photoOfType: (NSString *) type;
 
 @end

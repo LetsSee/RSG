@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MWPhotoBrowser.h"
 
-@interface CityPicturesController : UIViewController
+@interface CityPicturesController : UIViewController <MWPhotoBrowserDelegate>
 
 @property (nonatomic) NSArray *pictures;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;

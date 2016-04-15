@@ -11,6 +11,8 @@
 #import "TestFairy.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import "AFHTTPRequestOperationLogger.h"
+#import "HTTPClient.h"
+#import "UIViewController+System.h"
 
 @interface AppDelegate ()
 
@@ -53,6 +55,21 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[HTTPClient sharedHTTPClient] getStatus:^(BOOL success, NSError *error) {
+        if (success) {
+            NSLog(@"WORKS");
+        }
+        else {
+            [[HTTPClient sharedHTTPClient] getStatus:^(BOOL success, NSError *error) {
+                if (success) {
+                    NSLog(@"WORKS");
+                }
+                else {
+                    [self.window.rootViewController showAlertViewWithError: error customTitle: L(@"Destinations server unavailable")];
+                }
+            }];
+        }
+    }];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
