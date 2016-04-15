@@ -4,7 +4,7 @@ platform :ios, '7.0'
 target 'RSG' do
 
 pod 'MWPhotoBrowser', :git => 'https://github.com/LetsSee/MWPhotoBrowser'
-pod 'AFNetworking'
+pod 'AFNetworking', '~> 2.6'
 pod 'TestFairy'
 
 end

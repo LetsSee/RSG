@@ -35,7 +35,7 @@
     [[AFHTTPRequestOperationLogger sharedLogger] startLogging];
 #endif
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled: YES];
-    //[TestFairy begin:@"2177b75eb4a83dfe8a573317e7d3ea55f5a137a1"];
+    [TestFairy begin:@"2177b75eb4a83dfe8a573317e7d3ea55f5a137a1"];
     
     return YES;
 }
